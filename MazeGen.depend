@@ -1,0 +1,123 @@
+# depslib dependency file v1.0
+1633378316 source:d:\programs\codeblocks\projects\mazegen\main.cpp
+	<windows.h>
+	<gdiplus.h>
+	<iostream>
+	"vcl.hpp"
+
+1633206581 d:\programs\codeblocks\projects\vcl\vcl.hpp
+	"Component.hpp"
+
+1633203537 d:\programs\codeblocks\projects\vcl\persistent.hpp
+
+1633213495 d:\programs\codeblocks\projects\vcl\component.hpp
+	"IComponent.hpp"
+
+1633207010 d:\programs\codeblocks\projects\vcl\componentenums.hpp
+
+1633213935 d:\programs\codeblocks\projects\vcl\icomponent.hpp
+	"ISite.hpp"
+
+1633213919 d:\programs\codeblocks\projects\vcl\isite.hpp
+	"IComponent.hpp"
+	"IContainer.hpp"
+	<string>
+
+1633213935 d:\programs\codeblocks\projects\vcl\icontainer.hpp
+	"IComponent.hpp"
+	<string>
+	<vector>
+
+1633378253 d:\programs\codeblocks\projects\vcl\include\vcl.hpp
+	"Control.hpp"
+	"Rectangle.hpp"
+	"Point.hpp"
+	"NativeWindow.hpp"
+	"ThreadContext.hpp"
+
+1633213495 d:\programs\codeblocks\projects\vcl\include\component.hpp
+	"IComponent.hpp"
+
+1633213935 d:\programs\codeblocks\projects\vcl\include\icomponent.hpp
+	"ISite.hpp"
+
+1633275888 d:\programs\codeblocks\projects\vcl\include\isite.hpp
+	"IComponent.hpp"
+	"IContainer.hpp"
+	<string>
+
+1633276612 d:\programs\codeblocks\projects\vcl\include\icontainer.hpp
+	"IComponent.hpp"
+	<string>
+	<vector>
+
+1633298095 d:\programs\codeblocks\projects\vcl\include\control.hpp
+	"Component.hpp"
+	"IArrangedElement.hpp"
+	"IWin32Window.hpp"
+	<string>
+
+1633276561 d:\programs\codeblocks\projects\vcl\include\iarrangedelement.hpp
+	"IComponent.hpp"
+	"Rectangle.hpp"
+	"BoundsSpecified.hpp"
+	<vector>
+	<string>
+
+1633271258 d:\programs\codeblocks\projects\vcl\include\rectangle.hpp
+	"RectangleF.hpp"
+	"Point.hpp"
+	"Size.hpp"
+
+1633275276 d:\programs\codeblocks\projects\vcl\include\point.hpp
+	"Size.hpp"
+	"PointF.hpp"
+
+1633273520 d:\programs\codeblocks\projects\vcl\include\size.hpp
+	"Point.hpp"
+	"SizeF.hpp"
+
+1633269872 d:\programs\codeblocks\projects\vcl\include\rectanglef.hpp
+	"PointF.hpp"
+	"SizeF.hpp"
+
+1633275309 d:\programs\codeblocks\projects\vcl\include\pointf.hpp
+	"SizeF.hpp"
+	"Size.hpp"
+
+1633275317 d:\programs\codeblocks\projects\vcl\include\sizef.hpp
+	"PointF.hpp"
+	"Size.hpp"
+
+1633276246 d:\programs\codeblocks\projects\vcl\include\boundsspecified.hpp
+
+1633590105 d:\programs\codeblocks\projects\vcl\include\iwin32window.hpp
+	<windows.h>
+
+1633707862 d:\programs\codeblocks\projects\vcl\include\nativewindow.hpp
+	"IWin32Window.hpp"
+	"Message.hpp"
+	"CreateParams.hpp"
+	"NativeMethods.hpp"
+	<unordered_map>
+
+1633376235 d:\programs\codeblocks\projects\vcl\include\handlebucket.hpp
+
+1633532665 d:\programs\codeblocks\projects\vcl\include\threadcontext.hpp
+	<unordered_map>
+	<windows.h>
+
+1633589285 d:\programs\codeblocks\projects\vcl\include\message.hpp
+	<windows.h>
+
+1633590019 d:\programs\codeblocks\projects\vcl\include\createparams.hpp
+	<string>
+
+1633632171 d:\programs\codeblocks\projects\vcl\include\nativemethods.hpp
+	"NativeWindow.hpp"
+
+1633983307 source:d:\programs\codeblocks\projects\mazegen\src\main.cpp
+	<windows.h>
+	<gdiplus.h>
+	<iostream>
+
