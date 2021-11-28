@@ -12,7 +12,7 @@ void RegisterMazeControl(HINSTANCE hInstance)
     wincl.hInstance = hInstance;
     wincl.lpszClassName = szMazeControl;
     wincl.lpfnWndProc = MazeWndProc;
-    wincl.style = CS_VREDRAW | CS_HREDRAW;
+    wincl.style = 0;
     wincl.cbSize = sizeof(WNDCLASSEX);
     wincl.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
     wincl.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
@@ -45,6 +45,18 @@ LRESULT CALLBACK MazeWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
         break;
 
     case WM_GENERATE:
+        OnMazeGenerate(hwnd, (Alg)wParam, lParam);
+        break;
+
+    case WM_SETVIS:
+        OnSetVisualizing(hwnd, wParam);
+        break;
+
+    case WM_SAVEAS:
+
+        break;
+
+    case WM_LOAD:
 
         break;
 

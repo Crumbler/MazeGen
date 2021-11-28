@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add directory="D:/Programs/CodeBlocks/Projects/VCL/bin/Debug" />
@@ -25,6 +26,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -51,7 +53,11 @@
 			<Add library="comctl32" />
 			<Add library="gdiplus" />
 		</Linker>
+		<Unit filename="include/controlConstants.hpp" />
+		<Unit filename="include/menuConstants.hpp" />
+		<Unit filename="include/windowFuncs.hpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/windowFuncs.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

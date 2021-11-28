@@ -2,6 +2,8 @@
 
 #include <windows.h>
 
+#include "Maze.hpp"
+
 constexpr wchar_t szMazeControl[] = L"MazeControl";
 
 constexpr int WM_GENERATE = WM_USER + 1,
@@ -14,4 +16,6 @@ void RegisterMazeControl(HINSTANCE hInstance);
 struct MazeControlExtra
 {
     int width, height;
+    bool visualizing;
+    Maze maze;
 };

@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
            0,
            szClassName,
            szClassName,
-           WS_OVERLAPPEDWINDOW,
+           WS_OVERLAPPEDWINDOW & ~(CS_VREDRAW | CS_HREDRAW),
            CW_USEDEFAULT,
            CW_USEDEFAULT,
            1280,
@@ -95,7 +95,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         return 1;
 
     case WM_SIZE:
-        OnResize(hwnd, LOWORD(lParam), HIWORD(lParam));
+        OnResize(hwnd, wParam, LOWORD(lParam), HIWORD(lParam));
+        break;
+
+    case WM_EXITSIZEMOVE:
+        OnExitSizeMove(hwnd);
         break;
 
     case WM_PAINT:

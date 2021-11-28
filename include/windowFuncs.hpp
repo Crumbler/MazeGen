@@ -4,7 +4,7 @@
 
 
 void OnVScroll(HWND hwnd, WPARAM wParam);
-void OnResize(HWND hwnd, int newWidth, int newHeight);
+void OnResize(HWND hwnd, int resizeType, int newWidth, int newHeight);
 void OnCreate(HWND hwnd, HINSTANCE hInstance);
 void OnPaint(HWND hwnd);
 void OnMouseWheel(HWND hwnd, WPARAM scrollState);
@@ -16,3 +16,4 @@ void OnVisualizeCheck(HWND hwnd, HWND hwndControl);
 void CreateMenus(HWND hwnd);
 void OnComboboxSelect(HWND hwnd, HWND hwndControl);
 void OnNotify(HWND hwnd, NMHDR* msgStruct);
+void OnExitSizeMove(HWND hwnd);

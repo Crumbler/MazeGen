@@ -116,8 +116,77 @@
 1633632171 d:\programs\codeblocks\projects\vcl\include\nativemethods.hpp
 	"NativeWindow.hpp"
 
-1633983307 source:d:\programs\codeblocks\projects\mazegen\src\main.cpp
+1638107546 source:d:\programs\codeblocks\projects\mazegen\src\main.cpp
 	<windows.h>
 	<gdiplus.h>
 	<iostream>
+	<commctrl.h>
+	"windowFuncs.hpp"
+
+1638107622 source:d:\programs\codeblocks\projects\mazegen\src\windowfuncs.cpp
+	"windowFuncs.hpp"
+	"Constants.hpp"
+	"mazeControl.hpp"
+	"Maze.hpp"
+	<CommCtrl.h>
+	<gdiplus.h>
+	<cstdio>
+
+1638107499 d:\programs\codeblocks\projects\mazegen\include\windowfuncs.hpp
+	<windows.h>
+
+1638045658 d:\programs\codeblocks\projects\mazegen\include\menuconstants.hpp
+
+1638086712 d:\programs\codeblocks\projects\mazegen\include\controlconstants.hpp
+
+1638108655 d:\programs\codeblocks\projects\mazegen\include\constants.hpp
+
+1638106691 source:d:\programs\codeblocks\projects\mazegen\src\mazecontrol.cpp
+	"mazeControl.hpp"
+	"mazeControlFuncs.hpp"
+	<cstdio>
+
+1638105771 d:\programs\codeblocks\projects\mazegen\include\mazecontrol.hpp
+	<windows.h>
+	"Maze.hpp"
+
+1638105969 d:\programs\codeblocks\projects\mazegen\include\mazecontrolfuncs.hpp
+	"Maze.hpp"
+	<windows.h>
+
+1638108846 source:d:\programs\codeblocks\projects\mazegen\src\mazecontrolfuncs.cpp
+	"mazeControlFuncs.hpp"
+	"mazeControl.hpp"
+	"Cell.hpp"
+	<cstdio>
+	<gdiplus.h>
+
+1638113009 source:d:\programs\codeblocks\projects\mazegen\src\maze.cpp
+	"Maze.hpp"
+	"Cell.hpp"
+	<cstring>
+	<cstdio>
+
+1638112796 d:\programs\codeblocks\projects\mazegen\include\maze.hpp
+	"Cells.hpp"
+
+1638112166 d:\programs\codeblocks\projects\mazegen\include\cell.hpp
+
+1638108637 source:d:\programs\codeblocks\projects\mazegen\src\binarytree.cpp
+	"Maze.hpp"
+	<cstdlib>
+
+1638112990 source:d:\programs\codeblocks\projects\mazegen\src\recursivebacktrack.cpp
+	"Maze.hpp"
+	"Cell.hpp"
+	<cstdlib>
+	<cstdio>
+	<stack>
+
+1638112724 d:\programs\codeblocks\projects\mazegen\include\cells.hpp
+	"Cell.hpp"
+
+1638112886 source:d:\programs\codeblocks\projects\mazegen\src\cells.cpp
+	"Cells.hpp"
+	<cstdlib>
 
