@@ -1,7 +1,6 @@
 #pragma once
 
 #include <windows.h>
-#include <gdiplus.h>
 
 
 void OnVScroll(HWND hwnd, WPARAM wParam);
@@ -15,3 +14,5 @@ void OnControl(HWND hwnd, HWND hwndControl, int idNotify, int idControl);
 void OnGenerateClick(HWND hwnd, HWND hwndControl);
 void OnVisualizeCheck(HWND hwnd, HWND hwndControl);
 void CreateMenus(HWND hwnd);
+void OnComboboxSelect(HWND hwnd, HWND hwndControl);
+void OnNotify(HWND hwnd, NMHDR* msgStruct);

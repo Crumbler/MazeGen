@@ -3,18 +3,26 @@
 
 #include <iostream>
 
+#include <commctrl.h>
 #include "windowFuncs.hpp"
 
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-constexpr WCHAR szClassName[] = L"MazeGen";
+constexpr wchar_t szClassName[] = L"MazeGen";
 
 HINSTANCE hInstanceMain;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                    LPSTR lpszArgument, int nCmdShow)
 {
+    INITCOMMONCONTROLSEX initCtrls;
+
+    initCtrls.dwSize = sizeof(initCtrls);
+    initCtrls.dwICC = ICC_UPDOWN_CLASS;
+
+    InitCommonControlsEx(&initCtrls);
+
     using Gdiplus::GdiplusStartupInput;
     using Gdiplus::GdiplusShutdown;
 
@@ -26,16 +34,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     hInstanceMain = hInstance;
 
-    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 
     wincl.hInstance = hInstance;
     wincl.lpszClassName = szClassName;
     wincl.lpfnWndProc = WndProc;
     wincl.style = CS_DBLCLKS;
     wincl.cbSize = sizeof(WNDCLASSEX);
-    wincl.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    wincl.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-    wincl.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wincl.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+    wincl.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
+    wincl.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wincl.lpszMenuName = nullptr;
     wincl.cbClsExtra = 0;
     wincl.cbWndExtra = 0;
@@ -48,7 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     hwnd = CreateWindowExW(
            0,
            szClassName,
-           L"MazeGen",
+           szClassName,
            WS_OVERLAPPEDWINDOW,
            CW_USEDEFAULT,
            CW_USEDEFAULT,
@@ -96,6 +104,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case WM_COMMAND:
         OnCommand(hwnd, wParam, lParam);
+        break;
+
+    case WM_NOTIFY:
+        OnNotify(hwnd, (NMHDR*)lParam);
         break;
 
     case WM_DESTROY:

@@ -1,7 +1,10 @@
 #include "windowFuncs.hpp"
-#include "menuConstants.hpp"
-#include "controlConstants.hpp"
+#include "Constants.hpp"
+#include "mazeControl.hpp"
 
+
+#include <CommCtrl.h>
+#include <gdiplus.h>
 #include <cstdio>
 
 using namespace Gdiplus;
@@ -10,8 +13,10 @@ RECT rectClient;
 Font* fontMain;
 StringFormat* strfrmMain;
 bool visualize;
-HWND hwndCheckbox;
+int currentAlgorithm, mazeSize;
+HWND hwndCheckbox, hwndMazecontrol;
 wchar_t AlgStrings[2][7] = { L"First", L"Second" };
+
 
 void CreateMenus(HWND hwnd)
 {
@@ -34,24 +39,24 @@ void OnCreate(HWND hwnd, HINSTANCE hInstance)
     strfrmMain = StringFormat::GenericDefault()->Clone();
 
     visualize = false;
+    currentAlgorithm = 0;
+    mazeSize = mazeSizeMin;
 
     CreateMenus(hwnd);
 
-    HWND hwndButton = CreateWindow(L"BUTTON", L"Generate",
-                                   WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-                                   10, 10, 100, 30, hwnd,
-                                   (HMENU)idButton, hInstance, nullptr);
+    CreateWindow(L"BUTTON", L"Generate",
+                 WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+                 10, 10, 115, 30, hwnd,
+                  (HMENU)idButton, hInstance, nullptr);
 
-    hwndCheckbox = CreateWindow(L"BUTTON", L"Visualize",
-                                WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX,
-                                10, 130, 100, 30, hwnd,
-                                (HMENU)idCheckbox, hInstance, nullptr);
-
-    visualize = SendMessage(hwndCheckbox, BM_GETCHECK, 0, 0);
+    CreateWindowW(L"STATIC", L"Algorithm:",
+                  WS_CHILD | WS_VISIBLE | SS_LEFT,
+                  10, 50, 115, 20, hwnd,
+                  (HMENU)idLabel1, hInstance, nullptr);
 
     HWND hwndCombobox = CreateWindow(L"COMBOBOX", nullptr,
                                      WS_CHILD | WS_VISIBLE | CBS_DROPDOWN & ~CBS_SORT,
-                                     10, 50, 100, 300, hwnd,
+                                     10, 70, 115, 300, hwnd,
                                      (HMENU)idCombobox, hInstance, nullptr);
 
     for (int i = 0; i < 2; ++i)
@@ -59,7 +64,41 @@ void OnCreate(HWND hwnd, HINSTANCE hInstance)
         SendMessage(hwndCombobox, CB_ADDSTRING, i,(LPARAM)AlgStrings[i]);
     }
 
-    SendMessage(hwndCombobox, CB_SETCURSEL, 0, 0);
+    SendMessage(hwndCombobox, CB_SETCURSEL, currentAlgorithm, 0);
+
+    CreateWindowW(L"STATIC", L"Maze size:",
+                  WS_CHILD | WS_VISIBLE | SS_LEFT,
+                  10, 100, 115, 20, hwnd,
+                  (HMENU)idLabel2, hInstance, nullptr);
+
+    CreateWindowW(L"EDIT", nullptr,
+                  WS_CHILD | WS_VISIBLE | ES_CENTER | ES_READONLY,
+                  85, 100, 40, 20, hwnd,
+                  (HMENU)idEdit, hInstance, nullptr);
+
+
+    HWND hwndUpdown = CreateWindowW(UPDOWN_CLASS, nullptr,
+                                    WS_CHILD | WS_VISIBLE | UDS_AUTOBUDDY |
+                                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_HOTTRACK,
+                                    0, 0, 0, 0, hwnd,
+                                    (HMENU)idUpdown, hInstance, nullptr);
+
+    SendMessage(hwndUpdown, UDM_SETRANGE, 0, MAKELPARAM(mazeSizeMax, mazeSizeMin));
+    SendMessage(hwndUpdown, UDM_SETPOS, 0, mazeSize);
+
+    hwndCheckbox = CreateWindow(L"BUTTON", L"Visualize distance",
+                                WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | BS_MULTILINE,
+                                10, 130, 115, 40, hwnd,
+                                (HMENU)idCheckbox, hInstance, nullptr);
+
+    visualize = SendMessage(hwndCheckbox, BM_GETCHECK, 0, 0);
+
+    RegisterMazeControl(hInstance);
+
+    hwndMazecontrol = CreateWindow(szMazeControl, nullptr,
+                                   WS_CHILD | WS_VISIBLE,
+                                   135, 0, rectClient.right - 135, rectClient.bottom, hwnd,
+                                   (HMENU)idMazecontrol, hInstance, nullptr);
 }
 
 void OnResize(HWND hwnd, int newWidth, int newHeight)
@@ -67,6 +106,7 @@ void OnResize(HWND hwnd, int newWidth, int newHeight)
     rectClient.right = newWidth;
     rectClient.bottom = newHeight;
 
+    SetWindowPos(hwndMazecontrol, nullptr, 0, 0, newWidth - 135, newHeight, SWP_NOMOVE);
 }
 
 void OnPaint(HWND hwnd)
@@ -79,9 +119,9 @@ void OnPaint(HWND hwnd)
 
     graphics.Clear(Color::White);
 
-    SolidBrush brush(Color::Beige);
+    SolidBrush brush(Color(240, 240, 240));
 
-    graphics.FillRectangle(&brush, 200, 200, 400, 400);
+    graphics.FillRectangle(&brush, 0, 0, 135, rectClient.bottom);
 
     EndPaint(hwnd, &ps);
 }
@@ -141,12 +181,23 @@ void OnControl(HWND hwnd, HWND hwndControl, int idNotify, int idControl)
             break;
         }
         break;
+
+    case idCombobox:
+        switch (idNotify)
+        {
+        case LBN_SELCHANGE:
+            OnComboboxSelect(hwnd, hwndControl);
+            break;
+        }
+        break;
     }
 }
 
 void OnGenerateClick(HWND hwnd, HWND hwndControl)
 {
     printf("Clicked on Generate\n");
+
+    SendMessage(hwndMazecontrol, WM_GENERATE, 0, 0);
 }
 
 void OnVisualizeCheck(HWND hwnd, HWND hwndControl)
@@ -154,4 +205,31 @@ void OnVisualizeCheck(HWND hwnd, HWND hwndControl)
     visualize = SendMessage(hwndControl, BM_GETCHECK, 0, 0);
 
     printf("check: %d\n", visualize);
+}
+
+void OnComboboxSelect(HWND hwnd, HWND hwndControl)
+{
+    currentAlgorithm = SendMessage(hwndControl, CB_GETCURSEL, 0, 0);
+
+    printf("Selection changed: %d\n", currentAlgorithm);
+}
+
+void OnNotify(HWND hwnd, NMHDR* msgStruct)
+{
+    int nCode = msgStruct->code;
+
+    switch (nCode)
+    {
+    case UDN_DELTAPOS:
+        LPNMUPDOWN lpnmud = (LPNMUPDOWN)msgStruct;
+
+        int newMazeSize = mazeSize + lpnmud->iDelta;
+
+        if (newMazeSize >= mazeSizeMin && newMazeSize <= mazeSizeMax)
+        {
+            mazeSize = newMazeSize;
+        }
+
+        break;
+    }
 }
