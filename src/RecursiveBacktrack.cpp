@@ -2,14 +2,11 @@
 #include "Cell.hpp"
 
 #include <cstdlib>
-#include <cstdio>
 
 #include <stack>
 
 void Maze::genRecursiveBacktrack()
 {
-    constexpr int unvisited = WallAll;
-
     std::stack<Cell> cells;
 
     cells.push(Cell(rand() % size, rand() % size));

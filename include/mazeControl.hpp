@@ -17,5 +17,7 @@ struct MazeControlExtra
 {
     int width, height;
     bool visualizing;
+    HDC memDC;
+    HBITMAP bmp;
     Maze maze;
 };

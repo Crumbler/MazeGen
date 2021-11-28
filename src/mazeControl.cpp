@@ -33,6 +33,10 @@ LRESULT CALLBACK MazeWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
         OnMazeCreate(hwnd);
         break;
 
+    case WM_CLOSE:
+        OnMazeClose(hwnd);
+        break;
+
     case WM_ERASEBKGND:
         return 1;
 

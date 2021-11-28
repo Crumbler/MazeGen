@@ -10,8 +10,6 @@
 using namespace Gdiplus;
 
 RECT rectClient;
-Font* fontMain;
-StringFormat* strfrmMain;
 bool visualizing;
 int mazeSize;
 Alg currentAlgorithm;
@@ -34,12 +32,9 @@ void CreateMenus(HWND hwnd)
 
 void OnCreate(HWND hwnd, HINSTANCE hInstance)
 {
-    fontMain = new Font(L"Times New Roman", 25);
-    strfrmMain = StringFormat::GenericDefault()->Clone();
-
     visualizing = false;
     currentAlgorithm = RecursiveBacktrack;
-    mazeSize = mazeSizeMin;
+    mazeSize = initialMazeSize;
 
     CreateMenus(hwnd);
 
@@ -107,14 +102,15 @@ void OnResize(HWND hwnd, int resizeType, int newWidth, int newHeight)
     rectClient.right = newWidth;
     rectClient.bottom = newHeight;
 
+    SetWindowPos(hwndMazecontrol, nullptr, 0, 0, newWidth - panelWidth, newHeight,
+                 SWP_NOMOVE | SWP_NOREDRAW);
+
+    // if maximized or unminimized
     if (resizeType == SIZE_MAXIMIZED ||
         (resizeType == 0 && lastResizeType != 0))
     {
         InvalidateRect(hwndMazecontrol, nullptr, false);
     }
-
-    SetWindowPos(hwndMazecontrol, nullptr, 0, 0, newWidth - panelWidth, newHeight,
-                 SWP_NOMOVE | SWP_NOREDRAW);
 
     lastResizeType = resizeType;
 }

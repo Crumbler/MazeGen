@@ -53,10 +53,20 @@
 			<Add library="comctl32" />
 			<Add library="gdiplus" />
 		</Linker>
-		<Unit filename="include/controlConstants.hpp" />
-		<Unit filename="include/menuConstants.hpp" />
+		<Unit filename="include/Cell.hpp" />
+		<Unit filename="include/Cells.hpp" />
+		<Unit filename="include/Constants.hpp" />
+		<Unit filename="include/Maze.hpp" />
+		<Unit filename="include/mazeControl.hpp" />
+		<Unit filename="include/mazeControlFuncs.hpp" />
 		<Unit filename="include/windowFuncs.hpp" />
+		<Unit filename="src/BinaryTree.cpp" />
+		<Unit filename="src/Cells.cpp" />
+		<Unit filename="src/Maze.cpp" />
+		<Unit filename="src/RecursiveBacktrack.cpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/mazeControl.cpp" />
+		<Unit filename="src/mazeControlFuncs.cpp" />
 		<Unit filename="src/windowFuncs.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

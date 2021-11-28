@@ -18,11 +18,16 @@ public:
     void Load();
     int getSize();
     const char* getGrid();
+    const char* getColorGrid();
     int ind(int i, int j);
 
 private:
     int size;
-    char* grid;
+    char *grid, *colorGrid;
+    short* distances;
+
+    void calcDistances(short& maxDistance);
+    void calcColors(short maxDistance);
 
     void genBinaryTree();
     void genRecursiveBacktrack();
@@ -31,4 +36,6 @@ private:
     void linkCells(Cell c1, Cell c2);
 
     Cells getUnvisitedNeighbors(int i, int j);
+    Cells getLinkedNeighbors(int i, int j);
+    Cells getUncalculatedLinkedNeighbors(int i, int j);
 };
