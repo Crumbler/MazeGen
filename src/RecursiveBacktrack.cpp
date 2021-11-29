@@ -15,7 +15,7 @@ void Maze::genRecursiveBacktrack()
     {
         Cell c = cells.top();
 
-        Cells neighbors = getUnvisitedNeighbors(c.i, c.j);
+        Cells neighbors = getUnlinkedNeighbors(c.i, c.j);
 
         if (neighbors.size != 0)
         {

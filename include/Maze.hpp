@@ -7,7 +7,10 @@ enum Alg
     RecursiveBacktrack,
     BinaryTree,
     Prim,
-    Wilson
+    Wilson,
+    Sidewinder,
+    Kruskal,
+    AldousBroder
 };
 
 class Maze
@@ -22,6 +25,7 @@ public:
     const char* getGrid();
     const char* getColorGrid();
     int ind(int i, int j);
+    Cells getNeighbors(int i, int j);
 
 private:
     int size;
@@ -36,11 +40,16 @@ private:
     void genRecursiveBacktrack();
     void genPrim();
     void genWilson();
+    void genSidewinder();
+    void genKruskal();
+    void genAldousBroder();
 
     void linkCells(int i1, int j1, int i2, int j2);
     void linkCells(Cell c1, Cell c2);
 
-    Cells getUnvisitedNeighbors(int i, int j);
+    void mergeSets(short* sets, Cell start, short winnerSet, short loserSet);
+
+    Cells getUnlinkedNeighbors(int i, int j);
     Cells getLinkedNeighbors(int i, int j);
     Cells getUncalculatedLinkedNeighbors(int i, int j);
 };

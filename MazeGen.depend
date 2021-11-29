@@ -123,7 +123,7 @@
 	<commctrl.h>
 	"windowFuncs.hpp"
 
-1638172045 source:d:\programs\codeblocks\projects\mazegen\src\windowfuncs.cpp
+1638225110 source:d:\programs\codeblocks\projects\mazegen\src\windowfuncs.cpp
 	"windowFuncs.hpp"
 	"Constants.hpp"
 	"mazeControl.hpp"
@@ -131,6 +131,7 @@
 	<CommCtrl.h>
 	<gdiplus.h>
 	<cstdio>
+	<cwchar>
 
 1638134034 d:\programs\codeblocks\projects\mazegen\include\windowfuncs.hpp
 	<windows.h>
@@ -139,7 +140,7 @@
 
 1638086712 d:\programs\codeblocks\projects\mazegen\include\controlconstants.hpp
 
-1638197748 d:\programs\codeblocks\projects\mazegen\include\constants.hpp
+1638213956 d:\programs\codeblocks\projects\mazegen\include\constants.hpp
 
 1638140900 source:d:\programs\codeblocks\projects\mazegen\src\mazecontrol.cpp
 	"mazeControl.hpp"
@@ -161,7 +162,7 @@
 	<cstdio>
 	<gdiplus.h>
 
-1638198002 source:d:\programs\codeblocks\projects\mazegen\src\maze.cpp
+1638220829 source:d:\programs\codeblocks\projects\mazegen\src\maze.cpp
 	"Maze.hpp"
 	"Cell.hpp"
 	<cstring>
@@ -169,7 +170,7 @@
 	<cstdio>
 	<stack>
 
-1638199135 d:\programs\codeblocks\projects\mazegen\include\maze.hpp
+1638220799 d:\programs\codeblocks\projects\mazegen\include\maze.hpp
 	"Cells.hpp"
 
 1638197264 d:\programs\codeblocks\projects\mazegen\include\cell.hpp
@@ -179,7 +180,7 @@
 	"Maze.hpp"
 	<cstdlib>
 
-1638128632 source:d:\programs\codeblocks\projects\mazegen\src\recursivebacktrack.cpp
+1638201593 source:d:\programs\codeblocks\projects\mazegen\src\recursivebacktrack.cpp
 	"Maze.hpp"
 	"Cell.hpp"
 	<cstdlib>
@@ -192,8 +193,29 @@
 	"Cells.hpp"
 	<cstdlib>
 
-1638197524 source:d:\programs\codeblocks\projects\mazegen\src\prim.cpp
+1638201600 source:d:\programs\codeblocks\projects\mazegen\src\prim.cpp
 	"Maze.hpp"
 	<unordered_set>
+	<cstdlib>
+
+1638199650 source:d:\programs\codeblocks\projects\mazegen\src\sidewinder.cpp
+	"Maze.hpp"
+	<cstdlib>
+
+1638220533 source:d:\programs\codeblocks\projects\mazegen\src\wilson.cpp
+	"Maze.hpp"
+	<unordered_set>
+	<vector>
+	<cstdlib>
+
+1638220572 source:d:\programs\codeblocks\projects\mazegen\src\kruskal.cpp
+	"Maze.hpp"
+	<stack>
+	<vector>
+	<algorithm>
+	<utility>
+
+1638222828 source:d:\programs\codeblocks\projects\mazegen\src\aldousbroder.cpp
+	"Maze.hpp"
 	<cstdlib>
 

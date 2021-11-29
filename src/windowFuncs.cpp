@@ -6,6 +6,7 @@
 #include <CommCtrl.h>
 #include <gdiplus.h>
 #include <cstdio>
+#include <cwchar>
 
 using namespace Gdiplus;
 
@@ -15,7 +16,7 @@ bool visualizing;
 int mazeSize;
 Alg currentAlgorithm;
 HWND hwndCheckbox, hwndMazecontrol, hwndCombobox,
-     hwndUpdown;
+     hwndUpdown, hwndEdit;
 
 void CreateMenus(HWND hwnd)
 {
@@ -52,7 +53,7 @@ void OnCreate(HWND hwnd, HINSTANCE hInstance)
                   (HMENU)idLabel1, hInstance, nullptr);
 
     hwndCombobox = CreateWindow(L"COMBOBOX", nullptr,
-                                WS_CHILD | WS_VISIBLE | CBS_DROPDOWN & ~CBS_SORT,
+                                (WS_CHILD | WS_VISIBLE | CBS_DROPDOWN & ~CBS_SORT),
                                 paddingLeft, 70, panelWidth - paddingRight, 300, hwnd,
                                 (HMENU)idCombobox, hInstance, nullptr);
 
@@ -68,10 +69,10 @@ void OnCreate(HWND hwnd, HINSTANCE hInstance)
                   paddingLeft, 100, panelWidth - paddingRight, 20, hwnd,
                   (HMENU)idLabel2, hInstance, nullptr);
 
-    CreateWindowW(L"EDIT", nullptr,
-                  WS_CHILD | WS_VISIBLE | ES_CENTER | ES_READONLY,
-                  85, 100, 40, 20, hwnd,
-                  (HMENU)idEdit, hInstance, nullptr);
+    hwndEdit = CreateWindowW(L"EDIT", nullptr,
+                             WS_CHILD | WS_VISIBLE | ES_CENTER | ES_READONLY,
+                             85, 100, 40, 20, hwnd,
+                             (HMENU)idEdit, hInstance, nullptr);
 
 
     hwndUpdown = CreateWindowW(UPDOWN_CLASS, nullptr,
@@ -205,6 +206,12 @@ void OnControl(HWND hwnd, HWND hwndControl, int idNotify, int idControl)
 
 void OnGenerateClick(HWND hwnd, HWND hwndControl)
 {
+    wchar_t str[3];
+
+    GetWindowText(hwndEdit, str, 3);
+
+    swscanf(str, L"%d", &mazeSize);
+
     SendMessage(hwndMazecontrol, WM_GENERATE, currentAlgorithm, mazeSize);
 }
 
@@ -227,14 +234,11 @@ void OnNotify(HWND hwnd, NMHDR* msgStruct)
     switch (nCode)
     {
     case UDN_DELTAPOS:
-        LPNMUPDOWN lpnmud = (LPNMUPDOWN)msgStruct;
+        wchar_t str[3];
 
-        int newMazeSize = mazeSize + lpnmud->iDelta;
+        GetWindowText(hwndEdit, str, 3);
 
-        if (newMazeSize >= mazeSizeMin && newMazeSize <= mazeSizeMax)
-        {
-            mazeSize = newMazeSize;
-        }
+        swscanf(str, L"%d", &mazeSize);
 
         break;
     }
@@ -295,7 +299,7 @@ void OnFileOpen(HWND hwnd)
 
         SendMessage(hwndCombobox, CB_SETCURSEL, currentAlgorithm, 0);
 
-        int size = (res << 8) >> 8;
+        int size = res & 0x00FFFFFF;
         mazeSize = size;
 
         SendMessage(hwndUpdown, UDM_SETPOS, 0, mazeSize);

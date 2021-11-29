@@ -59,6 +59,18 @@ void Maze::Generate(Alg alg, int size)
     case Wilson:
         genWilson();
         break;
+
+    case Sidewinder:
+        genSidewinder();
+        break;
+
+    case Kruskal:
+        genKruskal();
+        break;
+
+    case AldousBroder:
+        genAldousBroder();
+        break;
     }
 
     short maxDistance;
@@ -73,21 +85,23 @@ void Maze::SaveAs(char* filename)
 
     int intAlg = currAlg;
 
-    fwrite(&intAlg, 4, 1, f);
-    fwrite(&size, 4, 1, f);
+    fwrite(&intAlg, sizeof(int), 1, f);
+    fwrite(&size, sizeof(int), 1, f);
 
     fwrite(grid, size * size, 1, f);
+
+    fflush(f);
 
     fclose(f);
 }
 
 int Maze::Load(char* filename)
 {
-    FILE* f = fopen(filename, "r");
+    FILE* f = fopen(filename, "rb");
 
     int intAlg, sz;
-    fread(&intAlg, 4, 1, f);
-    fread(&sz, 4, 1, f);
+    fread(&intAlg, sizeof(int), 1, f);
+    fread(&sz, sizeof(int), 1, f);
 
     currAlg = (Alg)intAlg;
 
@@ -165,7 +179,34 @@ void Maze::linkCells(Cell c1, Cell c2)
     linkCells(c1.i, c1.j, c2.i, c2.j);
 }
 
-Cells Maze::getUnvisitedNeighbors(int i, int j)
+Cells Maze::getNeighbors(int i, int j)
+{
+    Cells cells;
+
+    if (i > 0)
+    {
+        cells.Add(i - 1, j);
+    }
+
+    if (j > 0)
+    {
+        cells.Add(i, j - 1);
+    }
+
+    if (j < size - 1)
+    {
+        cells.Add(i, j + 1);
+    }
+
+    if (i < size - 1)
+    {
+        cells.Add(i + 1, j);
+    }
+
+    return cells;
+}
+
+Cells Maze::getUnlinkedNeighbors(int i, int j)
 {
     Cells cells;
 

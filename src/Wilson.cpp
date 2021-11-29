@@ -1,37 +1,79 @@
 #include "Maze.hpp"
 
+#include <unordered_set>
+#include <vector>
 #include <cstdlib>
+
+Cell getRandomCell(std::unordered_set<Cell, Cell::HashFunction>& cells)
+{
+    int ind = rand() % cells.size();
+
+    auto cellIterator = cells.begin();
+
+    for (int i = 0; i < ind; ++i)
+    {
+        ++cellIterator;
+    }
+
+    return *cellIterator;
+}
 
 void Maze::genWilson()
 {
-    std::vector<Cell> cells;
+    std::unordered_set<Cell, Cell::HashFunction> unvisited;
 
-    for (int i = size - 1; i >= 0; --i)
+    for (int i = 0; i < size; ++i)
     {
-        int start = 0;
-
         for (int j = 0; j < size; ++j)
         {
-            Cell c(i, j);
+            unvisited.insert(Cell(i, j));
+        }
+    }
 
-            bool atEast = j == size - 1,
-                 atNorth = i == 0;
+    Cell first = getRandomCell(unvisited);
+    unvisited.erase(first);
 
-            if (atEast || (!atNorth && (rand() % 2)))
+    std::vector<Cell> path;
+
+    while (!unvisited.empty())
+    {
+        path.clear();
+
+        Cell c = getRandomCell(unvisited);
+
+        path.push_back(c);
+
+        while (unvisited.find(c) != unvisited.end())
+        {
+            c = getNeighbors(c.i, c.j).random();
+
+            int ind = -1;
+            for (int i = 0; i < path.size(); ++i)
             {
-                c = Cell(i, start + rand() % (j - start + 1));
-
-                if (!atNorth)
+                if (path[i] == c)
                 {
-                    linkCells(c.i, c.j, c.i - 1, c.j);
+                    ind = i;
+                    break;
                 }
+            }
 
-                start = j + 1;
+            // if the cell was found in the path
+            if (ind != -1)
+            {
+                path.erase(path.begin() + ind + 1, path.end());
             }
             else
             {
-                linkCells(c.i, c.j, c.i, c.j + 1);
+                path.push_back(c);
             }
         }
+
+        for (int i = 0; i < path.size() - 1; ++i)
+        {
+            linkCells(path[i], path[i + 1]);
+            unvisited.erase(path[i]);
+        }
+
+        linkCells(path[path.size() - 2], path[path.size() - 1]);
     }
 }
