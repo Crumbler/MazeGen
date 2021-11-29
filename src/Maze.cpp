@@ -25,6 +25,8 @@ Maze::~Maze()
 
 void Maze::Generate(Alg alg, int size)
 {
+    currAlg = alg;
+
     if (this->size != size)
     {
         delete[] grid;
@@ -57,14 +59,53 @@ void Maze::Generate(Alg alg, int size)
     calcColors(maxDistance);
 }
 
-void Maze::SaveAs()
+void Maze::SaveAs(char* filename)
 {
+    FILE* f = fopen(filename, "w+b");
 
+    int intAlg = currAlg;
+
+    fwrite(&intAlg, 4, 1, f);
+    fwrite(&size, 4, 1, f);
+
+    fwrite(grid, size * size, 1, f);
+
+    fclose(f);
 }
 
-void Maze::Load()
+int Maze::Load(char* filename)
 {
+    FILE* f = fopen(filename, "r");
 
+    int intAlg, sz;
+    fread(&intAlg, 4, 1, f);
+    fread(&sz, 4, 1, f);
+
+    currAlg = (Alg)intAlg;
+
+    delete[] grid;
+    delete[] colorGrid;
+    delete[] distances;
+
+    this->size = sz;
+
+    grid = new char[size * size];
+    colorGrid = new char[size * size];
+    distances = new short[size * size];
+
+    fread(grid, size * size, 1, f);
+
+    fclose(f);
+
+    short maxDistance;
+
+    calcDistances(maxDistance);
+    calcColors(maxDistance);
+
+    int loadRes;
+    loadRes = (currAlg << 24) | size;
+
+    return loadRes;
 }
 
 int Maze::getSize()

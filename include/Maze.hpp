@@ -14,8 +14,8 @@ public:
     Maze();
     ~Maze();
     void Generate(Alg alg, int size);
-    void SaveAs();
-    void Load();
+    void SaveAs(char* filename);
+    int Load(char* filename);
     int getSize();
     const char* getGrid();
     const char* getColorGrid();
@@ -23,6 +23,7 @@ public:
 
 private:
     int size;
+    Alg currAlg;
     char *grid, *colorGrid;
     short* distances;
 

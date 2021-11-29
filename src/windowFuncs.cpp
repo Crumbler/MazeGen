@@ -10,10 +10,12 @@
 using namespace Gdiplus;
 
 RECT rectClient;
+char currDir[256];
 bool visualizing;
 int mazeSize;
 Alg currentAlgorithm;
-HWND hwndCheckbox, hwndMazecontrol;
+HWND hwndCheckbox, hwndMazecontrol, hwndCombobox,
+     hwndUpdown;
 
 void CreateMenus(HWND hwnd)
 {
@@ -35,6 +37,7 @@ void OnCreate(HWND hwnd, HINSTANCE hInstance)
     visualizing = false;
     currentAlgorithm = RecursiveBacktrack;
     mazeSize = initialMazeSize;
+    GetCurrentDirectoryA(sizeof(currDir), currDir);
 
     CreateMenus(hwnd);
 
@@ -48,10 +51,10 @@ void OnCreate(HWND hwnd, HINSTANCE hInstance)
                   paddingLeft, 50, panelWidth - paddingRight, 20, hwnd,
                   (HMENU)idLabel1, hInstance, nullptr);
 
-    HWND hwndCombobox = CreateWindow(L"COMBOBOX", nullptr,
-                                     WS_CHILD | WS_VISIBLE | CBS_DROPDOWN & ~CBS_SORT,
-                                     paddingLeft, 70, panelWidth - paddingRight, 300, hwnd,
-                                     (HMENU)idCombobox, hInstance, nullptr);
+    hwndCombobox = CreateWindow(L"COMBOBOX", nullptr,
+                                WS_CHILD | WS_VISIBLE | CBS_DROPDOWN & ~CBS_SORT,
+                                paddingLeft, 70, panelWidth - paddingRight, 300, hwnd,
+                                (HMENU)idCombobox, hInstance, nullptr);
 
     for (int i = 0; i < totalAlgorithms; ++i)
     {
@@ -71,11 +74,11 @@ void OnCreate(HWND hwnd, HINSTANCE hInstance)
                   (HMENU)idEdit, hInstance, nullptr);
 
 
-    HWND hwndUpdown = CreateWindowW(UPDOWN_CLASS, nullptr,
-                                    WS_CHILD | WS_VISIBLE | UDS_AUTOBUDDY |
-                                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_HOTTRACK,
-                                    0, 0, 0, 0, hwnd,
-                                    (HMENU)idUpdown, hInstance, nullptr);
+    hwndUpdown = CreateWindowW(UPDOWN_CLASS, nullptr,
+                               WS_CHILD | WS_VISIBLE | UDS_AUTOBUDDY |
+                               UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_HOTTRACK,
+                               0, 0, 0, 0, hwnd,
+                               (HMENU)idUpdown, hInstance, nullptr);
 
     SendMessage(hwndUpdown, UDM_SETRANGE, 0, MAKELPARAM(mazeSizeMax, mazeSizeMin));
     SendMessage(hwndUpdown, UDM_SETPOS, 0, mazeSize);
@@ -154,11 +157,11 @@ void OnMenu(HWND hwnd, int idMenu)
     switch (idMenu)
     {
     case IDM_FILE_OPEN:
-
+        OnFileOpen(hwnd);
         break;
 
     case IDM_FILE_SAVE_AS:
-
+        OnFileSaveAs(hwnd);
         break;
 
     case IDM_EXIT:
@@ -234,5 +237,67 @@ void OnNotify(HWND hwnd, NMHDR* msgStruct)
         }
 
         break;
+    }
+}
+
+void OnFileSaveAs(HWND hwnd)
+{
+    OPENFILENAMEA ofn;
+    char szFile[260];
+
+    ZeroMemory(&ofn, sizeof(ofn));
+
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = hwnd;
+    ofn.lpstrFile = szFile;
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "Maze (*.mz)\0*.MZ\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = nullptr;
+    ofn.lpstrDefExt = "mz";
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = currDir;
+    ofn.Flags = OFN_DONTADDTORECENT | OFN_PATHMUSTEXIST |
+                OFN_EXTENSIONDIFFERENT | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT;
+
+    if (GetSaveFileNameA(&ofn))
+    {
+        SendMessage(hwndMazecontrol, WM_SAVEAS, 0, (LPARAM)ofn.lpstrFile);
+    }
+}
+
+void OnFileOpen(HWND hwnd)
+{
+    OPENFILENAMEA ofn;
+    char szFile[260];
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = hwnd;
+    ofn.lpstrFile = szFile;
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "Maze (*.mz)\0*.MZ\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = nullptr;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrDefExt = "mz";
+    ofn.lpstrInitialDir = currDir;
+    ofn.Flags = OFN_DONTADDTORECENT | OFN_PATHMUSTEXIST |
+                OFN_FILEMUSTEXIST;
+
+    if (GetOpenFileNameA(&ofn))
+    {
+        int res = SendMessage(hwndMazecontrol, WM_LOAD, 0, (LPARAM)ofn.lpstrFile);
+        int alg = res >> 24;
+        currentAlgorithm = (Alg)alg;
+
+        SendMessage(hwndCombobox, CB_SETCURSEL, currentAlgorithm, 0);
+
+        int size = (res << 8) >> 8;
+        mazeSize = size;
+
+        SendMessage(hwndUpdown, UDM_SETPOS, 0, mazeSize);
     }
 }

@@ -9,3 +9,5 @@ void OnMazePaint(HWND hwnd);
 void OnMazeResize(HWND hwnd, int newWidth, int newHeight);
 void OnMazeGenerate(HWND hwnd, Alg alg, int mazeSize);
 void OnSetVisualizing(HWND hwnd, bool visualizing);
+void OnMazeSaveAs(HWND hwnd, char* filename);
+int OnMazeLoad(HWND hwnd, char* filename);

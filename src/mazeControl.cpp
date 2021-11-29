@@ -57,12 +57,11 @@ LRESULT CALLBACK MazeWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
         break;
 
     case WM_SAVEAS:
-
+        OnMazeSaveAs(hwnd, (char*)lParam);
         break;
 
     case WM_LOAD:
-
-        break;
+        return OnMazeLoad(hwnd, (char*)lParam);
 
     case WM_DESTROY:
         PostQuitMessage(0);

@@ -182,3 +182,24 @@ void OnSetVisualizing(HWND hwnd, bool visualizing)
 
     InvalidateRect(hwnd, nullptr, false);
 }
+
+void OnMazeSaveAs(HWND hwnd, char* filename)
+{
+    auto* mzlt = GetMazeControl(hwnd);
+
+    mzlt->maze.SaveAs(filename);
+}
+
+int OnMazeLoad(HWND hwnd, char* filename)
+{
+    auto* mzlt = GetMazeControl(hwnd);
+
+    int res = mzlt->maze.Load(filename);
+
+    if (res)
+    {
+        InvalidateRect(hwnd, nullptr, false);
+    }
+
+    return res;
+}

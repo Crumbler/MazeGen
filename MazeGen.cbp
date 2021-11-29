@@ -52,6 +52,7 @@
 			<Add library="kernel32" />
 			<Add library="comctl32" />
 			<Add library="gdiplus" />
+			<Add library="comdlg32" />
 		</Linker>
 		<Unit filename="include/Cell.hpp" />
 		<Unit filename="include/Cells.hpp" />
