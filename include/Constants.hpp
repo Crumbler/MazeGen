@@ -16,9 +16,10 @@ constexpr int IDM_FILE_OPEN = 0,
 constexpr int mazeSizeMax = 25,
               mazeSizeMin = 2;
 
-constexpr int totalAlgorithms = 2;
+constexpr int totalAlgorithms = 4;
 
-constexpr wchar_t AlgStrings[totalAlgorithms][20] = { L"Recursive backtrack", L"Binary tree" };
+constexpr wchar_t AlgStrings[totalAlgorithms][20] = { L"Recursive backtrack", L"Binary tree",
+                                                      L"Prim", L"Wilson" };
 
 constexpr int panelWidth = 180,
               paddingRight = 20,

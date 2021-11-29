@@ -51,6 +51,14 @@ void Maze::Generate(Alg alg, int size)
     case BinaryTree:
         genBinaryTree();
         break;
+
+    case Prim:
+        genPrim();
+        break;
+
+    case Wilson:
+        genWilson();
+        break;
     }
 
     short maxDistance;

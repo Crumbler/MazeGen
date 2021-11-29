@@ -5,7 +5,9 @@
 enum Alg
 {
     RecursiveBacktrack,
-    BinaryTree
+    BinaryTree,
+    Prim,
+    Wilson
 };
 
 class Maze
@@ -32,6 +34,8 @@ private:
 
     void genBinaryTree();
     void genRecursiveBacktrack();
+    void genPrim();
+    void genWilson();
 
     void linkCells(int i1, int j1, int i2, int j2);
     void linkCells(Cell c1, Cell c2);
