@@ -75,8 +75,8 @@ void PaintMaze(Graphics& graphics, const char grid[],
 
     Pen penWall(Color::Black, lineWidth);
 
-    graphics.DrawLine(&penWall, 0.0f, 0.0f, 1.0f, 0.0f);
-    graphics.DrawLine(&penWall, 0.0f, 0.0f, 0.0f, 1.0f);
+    graphics.DrawLine(&penWall, -halfLineWidth, 0.0f, 1.0f + halfLineWidth, 0.0f);
+    graphics.DrawLine(&penWall, 0.0f, -halfLineWidth, 0.0f, 1.0f + halfLineWidth);
 
     for (int i = 0; i < size; ++i)
     {
@@ -130,15 +130,19 @@ void OnMazePaint(HWND hwnd)
 
     graphics.Clear(Color::White);
 
-    // All coordinates are now in the range [0.0f, 1.0f]
-    graphics.ScaleTransform(scale, scale);
-
-    // Center the drawing
-    graphics.TranslateTransform(trX / scale, trY / scale);
-
     Maze& maze = mzCtrl->maze;
 
     int size = maze.getSize();
+
+    float cellSize = scale / size,
+          lineWidth = cellSize * wallWidth,
+          halfLineWidth = lineWidth / 2.0f;
+
+    // All coordinates are now in the range [0.0f, 1.0f]
+    graphics.ScaleTransform(scale - lineWidth, scale - lineWidth);
+
+    // Center the drawing
+    graphics.TranslateTransform((trX + halfLineWidth) / scale, (trY + halfLineWidth) / scale);
 
     PaintMaze(graphics, maze.getGrid(), maze.getColorGrid(), size, mzCtrl->visualizing);
 

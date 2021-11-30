@@ -61,8 +61,10 @@
 		<Unit filename="include/mazeControl.hpp" />
 		<Unit filename="include/mazeControlFuncs.hpp" />
 		<Unit filename="include/windowFuncs.hpp" />
+		<Unit filename="src/AldousBroder.cpp" />
 		<Unit filename="src/BinaryTree.cpp" />
 		<Unit filename="src/Cells.cpp" />
+		<Unit filename="src/Kruskal.cpp" />
 		<Unit filename="src/Maze.cpp" />
 		<Unit filename="src/Prim.cpp" />
 		<Unit filename="src/RecursiveBacktrack.cpp" />
